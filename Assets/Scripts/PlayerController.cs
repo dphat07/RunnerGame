@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,13 +22,17 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     private bool isSliding = false;
 
-    //public bool isGrounded;
-    //public LayerMask groundLayer;
-    //public Transform groundCheck;
+    public bool isGrounded;
+    public LayerMask groundLayer;
+    public Transform groundCheck;
+
+  
+    
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
+       
     }
 
     // Update is called once per frame
@@ -37,6 +43,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+     
+
         if (forwardSpeed < maxSpeed)
         {
             forwardSpeed += 0.1f * Time.deltaTime;
@@ -46,8 +54,8 @@ public class PlayerController : MonoBehaviour
         
         direction.z = forwardSpeed;
 
-        //isGrounded = Physics.CheckSphere(groundCheck.position, 0.17f, groundLayer);
-        animator.SetBool("isGrounded", true);
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.17f, groundLayer);
+        animator.SetBool("isGrounded", isGrounded);
 
         if (SwipeManager.swipeDown && !isSliding)
         {
@@ -97,7 +105,7 @@ public class PlayerController : MonoBehaviour
         {
             targetPositon += Vector3.right * lanedDitance;
         }
-        //transform.position = Vector3.Lerp(transform.position, targetPositon, 80 *Time.fixedDeltaTime);
+        //transform.position = Vector3.Lerp(transform.position, targetPositon, 80 * Time.deltaTime);
         //controller.center = controller.center;
 
 
