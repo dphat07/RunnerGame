@@ -21,6 +21,7 @@ public class Coin : MonoBehaviour
         if (other.tag == "Player")
         {
             PlayerManager.numberCoin += 1;
+            FindObjectOfType<AudioManager>().PlaySound("PickUpCoin");
             Destroy(gameObject);
         }
     }
