@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
         if(controller.isGrounded)
         {
-            direction.y = -1;
+            //direction.y = -1;
             if (SwipeManager.swipeUp)
             {
                 Jump();
@@ -109,29 +109,25 @@ public class PlayerController : MonoBehaviour
         //controller.center = controller.center;
 
 
-        if (transform.position == targetPositon)
+        if (transform.position != targetPositon)
         {
-            return;
+            Vector3 diff = targetPositon - transform.position;
+            Vector3 moveDir = diff.normalized * 25 * Time.deltaTime;
+            if (moveDir.sqrMagnitude < diff.sqrMagnitude)
+            {
+                controller.Move(moveDir);
+            }
+            else
+                controller.Move(diff);
+        }
+       
 
-        }
-        Vector3 diff = targetPositon - transform.position;
-        Vector3 moveDir = diff.normalized * 25 * Time.deltaTime;
-        if (moveDir.sqrMagnitude < diff.sqrMagnitude)
-        {
-            controller.Move(moveDir);
-        }
-        else
-            controller.Move(diff);
+
+        controller.Move(direction * Time.deltaTime);
     }
 
-    private void FixedUpdate()
-    {
-        if (!PlayerManager.isGameStarted)
-        {
-            return;
-        }
-        controller.Move(direction * Time.fixedDeltaTime);
-    }
+   
+    
 
     void Jump()
     {
